@@ -1,68 +1,47 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  HttpException,
   Param,
   ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/dtos/usersDtos';
 
-const users = [
-  {
-    id: 1,
-    name: 'asik',
-    email: 'asik@gmail.com',
-  },
-  {
-    id: 2,
-    name: 'naeem',
-    email: 'naeem@gmail.com',
-  },
-  {
-    id: 3,
-    name: 'emon',
-    email: 'emon@gmail.com',
-  },
-];
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update.user.dto';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Get()
   fetchUsers() {
-    return users;
+    return this.usersService.fetchUsers();
   }
 
   @Get(':id')
-  fetchUsersById(@Param('id', ParseIntPipe) id: number) {
-    const user = users.find((user) => user.id == id);
-    return user;
+  fetchUserById(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.fetchUserById(id);
   }
 
   @Post()
-  createUser(@Body() body: CreateUserDto) {
-    const newUser = {
-      id: users.length + 1,
-      name: body.name,
-      email: body.email,
-    };
-
-    users.push(newUser);
-    return body;
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Patch(':id')
-  updateUser(
-    @Body() body: CreateUserDto,
+  updateUserById(
+    @Body() updateUserDto: UpdateUserDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    const user = users.find((user) => user.id === id);
-    if (!user) throw new HttpException('User not found', 404);
+    return this.usersService.updateUserById(id, updateUserDto);
+  }
 
-    user.name = body.name;
-    user.email = body.email;
-    return user;
+  @Delete(':id')
+  deleteUserById(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.deleteUserById(id);
   }
 }

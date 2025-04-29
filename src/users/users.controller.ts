@@ -1,4 +1,12 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
+import { CreateUserDto } from 'src/dtos/usersDtos';
 
 const users = [
   {
@@ -29,5 +37,17 @@ export class UsersController {
   fetchUsersById(@Param('id', ParseIntPipe) id: number) {
     const user = users.find((user) => user.id == id);
     return user;
+  }
+
+  @Post()
+  createUser(@Body() body: CreateUserDto) {
+    const newUser = {
+      id: users.length + 1,
+      name: body.name,
+      email: body.email,
+    };
+
+    users.push(newUser);
+    return body;
   }
 }

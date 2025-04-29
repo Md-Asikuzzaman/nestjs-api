@@ -2,8 +2,10 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/dtos/usersDtos';
@@ -49,5 +51,18 @@ export class UsersController {
 
     users.push(newUser);
     return body;
+  }
+
+  @Patch(':id')
+  updateUser(
+    @Body() body: CreateUserDto,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    const user = users.find((user) => user.id === id);
+    if (!user) throw new HttpException('User not found', 404);
+
+    user.name = body.name;
+    user.email = body.email;
+    return user;
   }
 }

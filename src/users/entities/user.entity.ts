@@ -5,11 +5,6 @@ export class User {
 }
 
 
-export class Book {
-  id: number;
-  name: string;
-  email: string;
-}
 
 
 

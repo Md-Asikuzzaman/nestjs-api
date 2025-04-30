@@ -5,7 +5,7 @@ export class User {
 }
 
 
-export class Books {
+export class Book {
   id: number;
   name: string;
   email: string;

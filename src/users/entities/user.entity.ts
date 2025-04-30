@@ -7,4 +7,5 @@ export class User {
 export class Book {
   id: number;
   author: string;
+  release: 2021;
 }

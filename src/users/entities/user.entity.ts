@@ -4,8 +4,3 @@ export class User {
   email: string;
 }
 
-export class Book {
-  id: number;
-  author: string;
-  release: 2021;
-}

@@ -4,3 +4,12 @@ export class User {
   email: string;
 }
 
+
+export class Books {
+  id: number;
+  name: string;
+  email: string;
+}
+
+
+
